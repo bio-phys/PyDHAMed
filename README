@@ -1,0 +1,49 @@
+========
+pyDHAMed
+========
+
+DHAMed -Dynamic Histogram Analysis extended to detailed balance
+===============================================================
+
+Input are transition counts between states/bins and biases (if any).
+Biases specify the differences in the potential energy functions in the different
+simulation windows/runs.
+
+To run DHAMed from a list of count matrices and an array specfying the
+biases in each simulation (window) is required.
+    
+The list of the individual count matrices C contain the transition counts
+between the different states (or bins in umbrella sampling). C[i,j] where
+i is the product state and j the reactent state. The first row contains
+thus all the transitions into state 0.The first column C[:,0] all 
+transition out of state 0.
+    
+The bias array contains a bias value for each state and for each simulation
+(or window in umbrella sampling). The bias array has the shape N rows nwin 
+columns and contains the bias acting on each state in each simulation (window).
+The bias NEEDS to be given in units to kBT.
+    
+Most parameters besides count_list and bias_ar are only relevant for testing
+and further code developement. 
+    
+
+To run DHAMed:
+==============
+
+# import DHAMed functions 
+from optimize_dhamed import *
+
+# run optimization
+og = run_dhamed(count_list, bias_ar)
+ 
+DHAMed example:
+===============
+
+A Jupyter notebook with an example calculation is provided in the folder cg-RNA. 
+
+
+References:
+===========
+Dynamic Histogram Analysis To Determine Free Energies and Rates from biased 
+Simulations, L. S. Stelzl, A. Kells, E. Rosta, G. Hummer, J. Chem. Theory Comput.,
+2917, http://pubs.acs.org/doi/abs/10.1021/acs.jctc.7b00373

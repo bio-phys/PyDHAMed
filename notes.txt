@@ -1,0 +1,10 @@
+preparing release on GitHub
+
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/tests/ pydhamed/ 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/optimize_dhamed.py  pydhamed/ 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/prepare_dhamed.py   pydhamed/ 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/determine_transition_counts.py   pydhamed/ 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/cg-rna/   pydhamed/ 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ cp -r  ../pyDHAMed/README  .  
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed$ 
+
