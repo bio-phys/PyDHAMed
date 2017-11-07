@@ -32,6 +32,18 @@ To run DHAMed:
 
 # import DHAMed functions 
 from optimize_dhamed import *
+from determine_transition_counts import count_matrix
+
+# determine transition counts for each trajectory
+# Each frame in a trajectory needs to be assigned to one of the the n states
+# of the system
+for traj in traj_list:
+    count_list.append(count_matrix(traj, n_states=n))
+
+# Bias - need to specfiy the bias acting on each of the n states in the nwin simulation. 
+bias_ar = np.zeros((n, nwin))
+for i in range(n)
+    bias_ar[i,:] = np.loadtxt("bias"+i)
 
 # run optimization
 og = run_dhamed(count_list, bias_ar)
