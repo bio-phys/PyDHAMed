@@ -11,6 +11,13 @@ simulation windows/runs.
 
 To run DHAMed from a list of count matrices and an array specfying the
 biases in each simulation (window) is required.
+
+To see how DHAMed can be used to extract free energies from biased simulations
+look at the example Jupyter notebook provided. 
+https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
+
+Inputs
+======
     
 The list of the individual count matrices C contain the transition counts
 between the different states (or bins in umbrella sampling). C[i,j] where
