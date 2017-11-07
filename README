@@ -51,7 +51,8 @@ og = run_dhamed(count_list, bias_ar)
 DHAMed example:
 ===============
 
-A Jupyter notebook with an example calculation is provided in the folder cg-RNA. 
+A Jupyter notebook with an example calculation is provided in the folder cg-RNA.
+https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
 
 
 References:
