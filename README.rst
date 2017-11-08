@@ -28,7 +28,7 @@ transition out of state 0.
 The bias array contains a bias value for each state and for each simulation
 (or window in umbrella sampling). The bias array has the shape N rows nwin 
 columns and contains the bias acting on each state in each simulation (window).
-The bias NEEDS to be given in units to $kB_T$.
+The bias NEEDS to be given in units to kB_T.
     
 Most parameters besides count_list and bias_ar are only relevant for testing
 and further code developement. 
