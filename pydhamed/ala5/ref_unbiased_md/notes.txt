@@ -1,0 +1,5 @@
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed/pydhamed/ala5/ref_unbiased_md$ cp /home/tb/lustelzl/Projects/BioFF/5ala/ref_1us_1/long-cpu-1/tba/r1_5ala_1us_tba.npy . 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed/pydhamed/ala5/ref_unbiased_md$ cp /home/tb/lustelzl/Projects/BioFF/5ala/ref_1us_1/long-cpu-2/tba/r2_5ala_1us_tba.npy . 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed/pydhamed/ala5/ref_unbiased_md$ cp /home/tb/lustelzl/Projects/BioFF/5ala/ref_1us_1/long-cpu-3/tba/r3_5ala_1us_tba.npy . 
+lustelzl@tbsl025:~/Projects/DHAMed/bin/public-pyDHAMed/pydhamed/ala5/ref_unbiased_md$ 
+
