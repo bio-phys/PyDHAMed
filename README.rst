@@ -1,5 +1,5 @@
 ========
-pyDHAMed
+PyDHAMed
 ========
 
 DHAMed -Dynamic Histogram Analysis extended to detailed balance
