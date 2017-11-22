@@ -29,7 +29,7 @@ To install PyDHAMed clone or download the repository
  
  Then install with 
  
-.. code:: sh
+.. code:: bash
    pip install .
    
 Inputs
