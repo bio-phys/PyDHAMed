@@ -6,7 +6,8 @@ from prepare_dhamed import *
 
 
 @numba.jit(nopython=True)
-def effective_log_likelihood_count_list(g,  ip, jp, ti, tj, vi, vj, nk, nijp):
+def effective_log_likelihood_count_list(g,  ip, jp, ti, tj, vi, vj, nk, nijp,
+                                       jit_gradient=False):
     #g[-1] = 0
     #g = np.append(g_i, 0)
     xlogp = 0 
@@ -74,7 +75,8 @@ def grad_dhamed_likelihood_ref(g,  ip, jp, ti, tj, vi, vj, nk, nijp):
     
     
 
-def wrapper_ll(g_prime, g, ip, jp, ti, tj, vi, vj, nk, nijp):
+def wrapper_ll(g_prime, g, ip, jp, ti, tj, vi, vj, nk, nijp,
+               jit_gradient=False):
     """
     Adding the extra zero when minimizing N-1 relative weights.
     """
@@ -83,11 +85,12 @@ def wrapper_ll(g_prime, g, ip, jp, ti, tj, vi, vj, nk, nijp):
     return l
     
 
-def grad_dhamed_likelihood_ref_0(g_prime, g,  ip, jp, ti, tj, vi, vj, nk, nijp, jit=False):
+def grad_dhamed_likelihood_ref_0(g_prime, g,  ip, jp, ti, tj, vi, vj, nk, nijp,
+                                jit_gradient=False):
     g = np.append(g_prime, [0], axis=0)
     grad = np.zeros(g.shape[0] )
     grad[:-1]  += nk[:-1]
-    if jit:
+    if jit_gradient:
         grad = _loop_grad_dhamed_likelihood_0_jit(grad,g, ip, jp, ti, tj, vi, vj, nijp)
     else:
         grad = _loop_grad_dhamed_likelihood_0(grad,g, ip, jp, ti, tj, vi, vj, nijp)
@@ -175,7 +178,7 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     print ("loglike-start {}".format(l0))
     
     if last_g_zero:
-       og = min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp,
+       og = min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp, jit_gradient=jit_gradient,
                             **kwargs)
     
     else:
@@ -190,7 +193,7 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     return og #+ u_min #- u_min[-1] 
     
 
-def min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp,
+def min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp, jit_gradient=False,
                     **kwargs):
     """
     Find the optimal weights to solve the DHAMed equations by 
@@ -205,8 +208,8 @@ def min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp,
     g = g_init.copy()
     g_prime = g[:-1].T   
     # ip - 1, jp -1 : to get zero based indices
-    print wrapper_ll(g_prime,g, ip-1, jp-1, ti, tj, vi, vj, n_out, nijp)
+    print wrapper_ll(g_prime,g, ip-1, jp-1, ti, tj, vi, vj, n_out, nijp, jit_gradient)
     og = fmin_bfgs(wrapper_ll, g_prime,
-                   args=(g, ip -1, jp -1, ti, tj, vi, vj, n_out, nijp), 
+                   args=(g, ip -1, jp -1, ti, tj, vi, vj, n_out, nijp, jit_gradient), 
                    fprime=grad_dhamed_likelihood_ref_0, **kwargs)
     return np.append(og, 0)
