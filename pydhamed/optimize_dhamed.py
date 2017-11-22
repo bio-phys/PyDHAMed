@@ -83,16 +83,19 @@ def wrapper_ll(g_prime, g, ip, jp, ti, tj, vi, vj, nk, nijp):
     return l
     
 
-def grad_dhamed_likelihood_ref_0(g_prime, g,  ip, jp, ti, tj, vi, vj, nk, nijp):
+def grad_dhamed_likelihood_ref_0(g_prime, g,  ip, jp, ti, tj, vi, vj, nk, nijp, jit=False):
     g = np.append(g_prime, [0], axis=0)
     grad = np.zeros(g.shape[0] )
     grad[:-1]  += nk[:-1]
-    grad = loop_grad_dhamed_likelihood_0(grad,g, ip, jp, ti, tj, vi, vj, nijp)
+    if jit:
+        grad = _loop_grad_dhamed_likelihood_0_jit(grad,g, ip, jp, ti, tj, vi, vj, nijp)
+    else:
+        grad = _loop_grad_dhamed_likelihood_0(grad,g, ip, jp, ti, tj, vi, vj, nijp)
     return grad[:-1] 
  
  
-@numba.jit(nopython=True)
-def loop_grad_dhamed_likelihood_0(grad, g,  ip, jp, ti, tj, vi, vj, nijp):
+#@numba.jit(nopython=True)
+def _loop_grad_dhamed_likelihood_0(grad, g,  ip, jp, ti, tj, vi, vj, nijp):
     for ipair, i in enumerate(ip):
         j = jp[ipair]
         vij = np.exp(vj[ipair]-g[j]-vi[ipair]+g[i])
@@ -101,7 +104,10 @@ def loop_grad_dhamed_likelihood_0(grad, g,  ip, jp, ti, tj, vi, vj, nijp):
             grad[i] += -nijp[ipair] / (1.0 + tj[ipair]*vij/ti[ipair])
         if tj[ipair] >0 :
             grad[j] += -nijp[ipair] / (1.0 + ti[ipair]/(vij*tj[ipair]))
-    return grad       
+    return grad
+
+
+_loop_grad_dhamed_likelihood_0_jit = numba.jit(_loop_grad_dhamed_likelihood_0, nopython=True)
     
     
 def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
