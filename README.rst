@@ -21,12 +21,11 @@ Installation
 
 To install PyDHAMed clone or download the repository
 
-```
-git clone https://github.com/bio-phys/PyDHAMed.git 
-cd PyDHAMed
-```
+.. code:: bash
+  git clone https://github.com/bio-phys/PyDHAMed.git 
+  cd PyDHAMed
  
- Then install with pip
+ Then install with pip:
 
 ```
 pip install . 
