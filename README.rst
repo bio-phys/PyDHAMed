@@ -17,13 +17,19 @@ look at the example Jupyter notebook provided.
 https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
 
 Installation
-===========
+============
 
-:: 
+To install PyDHAMed clone or download the repository
+
+.. code:: sh
    git clone https://github.com/bio-phys/PyDHAMed.git 
-   cd cd PyDHAMed
+   cd PyDHAMed
+ 
+ Then install with 
+ 
+.. code:: sh
+   pip install .
    
-
 Inputs
 ======
     
