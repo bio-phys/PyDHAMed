@@ -30,7 +30,9 @@ To install PyDHAMed clone or download the repository
 Then install the dowloaded repository with pip:
 
 .. code:: python
+  
   pip install . 
+  
   
 PyDHAMed is now ready for use. 
 
