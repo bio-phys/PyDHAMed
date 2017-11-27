@@ -16,6 +16,27 @@ To see how DHAMed can be used to extract free energies from biased simulations
 look at the example Jupyter notebook provided. 
 https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
 
+Installation
+============
+
+To install PyDHAMed clone or download the repository
+
+.. code:: python
+
+  git clone https://github.com/bio-phys/PyDHAMed.git 
+  cd PyDHAMed
+ 
+ 
+Then install the dowloaded repository with pip:
+
+.. code:: python
+  
+  pip install . 
+  
+  
+PyDHAMed is now ready for use. 
+
+
 Inputs
 ======
     
