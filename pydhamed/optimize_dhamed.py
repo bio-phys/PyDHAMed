@@ -194,7 +194,7 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     
 
 def min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp, jit_gradient=False,
-                    **kwargs):
+                    numerical_gradients=False, **kwargs):
     """
     Find the optimal weights to solve the DHAMed equations by 
     determining the N-1 optimal relative weights of the states.
@@ -206,10 +206,16 @@ def min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp, jit_gradient=Fa
     
     """                
     g = g_init.copy()
-    g_prime = g[:-1].T   
+    g_prime = g[:-1].T
+
+    if numerical_gradients:
+        fprime=None
+    else:
+        fprime=grad_dhamed_likelihood_ref_0
+
     # ip - 1, jp -1 : to get zero based indices
     print wrapper_ll(g_prime,g, ip-1, jp-1, ti, tj, vi, vj, n_out, nijp, jit_gradient)
     og = fmin_bfgs(wrapper_ll, g_prime,
                    args=(g, ip -1, jp -1, ti, tj, vi, vj, n_out, nijp, jit_gradient), 
-                   fprime=grad_dhamed_likelihood_ref_0, **kwargs)
+                   fprime=fprime, **kwargs)
     return np.append(og, 0)
