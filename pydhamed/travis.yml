@@ -1,0 +1,18 @@
+language: python
+cache: pip
+sudo: false
+
+python:
+  - "2.7"
+
+branches:
+  only:
+    - master
+
+install:
+  - pip install --upgrade numpy scipy numba pandas 
+  - pip install -e .
+
+
+script:
+  - true
