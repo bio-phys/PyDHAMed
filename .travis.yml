@@ -4,17 +4,18 @@ sudo: false
 
 python:
   - "2.7"
+  - "3.5"
+  - "3.6"
 
 branches:
   only:
     - master
 
 install:
-  - pip install --upgrade numpy scipy numba pandas matplotlib
+  - pip install --upgrade pytest
+  # ensure pip install finds all dependencies
   - pip install -e .
 
 
 script:
-  - cd pydhamed/tests/
-  - nosetests -v
- 
+  - pytest -v
