@@ -2,7 +2,7 @@ import io
 from setuptools import find_packages, setup
 import os
 
-REQUIRED = [ 'numpy', 'scipy', 'pandas', 'numba']
+REQUIRED = [ 'numpy', 'scipy', 'pandas', 'numba', 'matplotlib']
 
 here = os.path.abspath(os.path.dirname(__file__))
 
