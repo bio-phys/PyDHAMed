@@ -2,6 +2,9 @@
 PyDHAMed
 ========
 
+.. image:: https://travis-ci.org/bio-phys/PyDHAMed.svg?branch=master
+    :target: https://travis-ci.org/bio-phys/PyDHAMed
+
 DHAMed -Dynamic Histogram Analysis extended to detailed balance
 ===============================================================
 
