@@ -10,7 +10,7 @@ branches:
     - master
 
 install:
-  - pip install --upgrade numpy scipy numba pandas 
+  - pip install --upgrade numpy scipy numba pandas matplotlib
   - pip install -e .
 
 
