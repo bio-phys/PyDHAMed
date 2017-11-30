@@ -15,4 +15,6 @@ install:
 
 
 script:
-  - true
+  - cd pydhamed/tests/
+  - nosetests -v
+ 
