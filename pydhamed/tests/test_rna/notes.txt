@@ -2,3 +2,4 @@ lustelzl@tbsl025:~/Projects/DHAMed/bin/pyDHAMed/tests/test_rna$ ls
 count_matrix_1.txt  wfile.txt
 lustelzl@tbsl025:~/Projects/DHAMed/bin/pyDHAMed/tests/test_rna$ cp /home/tb/lustelzl/Projects/DHAMed/cg-rna/umbrella_runs/us_dt-e4_2/pmf_1/us_dt-e4_2_p1.out . 
 
+Notebook used to develop regression test for RNA

@@ -1,0 +1,6 @@
+include README.rst LICENSE
+include setup.py
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude *~

@@ -64,8 +64,8 @@ To run DHAMed:
 .. code:: python
 
   # import DHAMed functions 
-  from optimize_dhamed import *
-  from determine_transition_counts import count_matrix
+  from pydhamed.optimize_dhamed import *
+  from pydhamed.determine_transition_counts import count_matrix
 
   # determine transition counts for each trajectory
   # Each frame in a trajectory needs to be assigned to one of the the n states
