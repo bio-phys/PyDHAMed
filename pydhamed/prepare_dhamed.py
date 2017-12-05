@@ -7,13 +7,17 @@ from collections import defaultdict
 def state_lifetimes_counts(transition_count_matrix_l,
                            n, nwin):
     """
+    
+    Calculate lifetimes in each of the states (for each run/window)
+    
     Parameters:
     -----------
     transition_count_matrix_l: list of arrays
 
     Returns:
     --------
-    t_ar: array_like
+    t_ar: array_like, n x nwin, where n is number of states,
+          nwin is number of windows
 
     """
     #n = len(transition_count_matrix_l[0][:,0])
@@ -83,6 +87,17 @@ def counts_in_out(transition_count_matrix_l, n, nwin):
 def check_transition_pairs(transition_count_matrix_l, n_in, n_out, n_states, t_ar):
     """
     check if bin i is paired at least once.
+    
+    Parameters:
+    -----------
+    transition_count_matrix_l: list of arrays, transition count matrices
+    n_in: array, number of transitions into given states
+    n_out: array, number of transitions from given state
+    n_states: integer
+    t_ar: array_like, n x nwin, where n is number of states,
+          nwin is number of windows  
+  
+    
     """
     paired_ar = np.zeros(n_states)
 
@@ -122,11 +137,19 @@ def prepare_dhamed_input_pairs(n_states, transition_count_matrix_l,
     """
     Parameters:
     -----------
-
+    n_states: integer, number of (conformational) states
+    transition_count_matrix_l: list of arrays, transition count matrices
+    n_in: array, number of transitions into given states
+    n_out: array, number of transitions from given state
+    paired_ar: array 
+    t_ar: array_like, n x nwin, where n is number of states,
+          nwin is number of windows
+    pair_idx_d
+    v_ar: array, bias potentials
 
     Returns:
     --------
-    ip_l, list,
+    dhamed_input_list: list, formatted inputs for DHAMed
 
     """
     ip_l = []
