@@ -180,7 +180,7 @@ def prepare_dhamed_input_pairs(n_states, transition_count_matrix_l,
                                     tj.append(t_ar[j,iwin])
                                     nijp.append( count_matrix[i,j] + count_matrix[j,i])
     print(n_pair)
-    return (np.array(ip_l), np.array(jp_l), np.array(vi), np.array(vj), np.array(ti),
+    return (np.array(ip_l, dtype=int), np.array(jp_l, dtype=int), np.array(vi), np.array(vj), np.array(ti),
             np.array(tj), np.array(nijp))
 
 

@@ -15,4 +15,3 @@ def test_cg_rna_pmf_with_reference(data):
     f_rna = cg_rna_ref[:,-1] - cg_rna_ref[-1,-1]
 
     assert_almost_equal(f_rna, py_rna)
-
