@@ -61,8 +61,8 @@ Most parameters besides count_list and bias_ar are only relevant for testing
 and further code developement. 
     
 
-To run DHAMed:
-==============
+To run DHAMed
+=============
 
 .. code:: python
 
@@ -84,7 +84,7 @@ To run DHAMed:
   # run optimization
   og = run_dhamed(count_list, bias_ar)
  
-DHAMed examples:
+DHAMed examples
 ===============
 
 Two example calculations are provided in the pydhamed folder. 
@@ -99,8 +99,8 @@ Umbrella sampling simulations of RNA duplex formation using a coarse-grained mod
 https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
 
 
-References:
-===========
+References
+==========
 Dynamic Histogram Analysis To Determine Free Energies and Rates from biased 
 Simulations, L. S. Stelzl, A. Kells, E. Rosta, G. Hummer, J. Chem. Theory Comput.,
 2017, http://pubs.acs.org/doi/abs/10.1021/acs.jctc.7b00373
