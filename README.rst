@@ -87,7 +87,15 @@ To run DHAMed:
 DHAMed example:
 ===============
 
-A Jupyter notebook with an example calculation is provided in the folder cg-RNA.
+Two example calculations are provided in the pydhamed folder. 
+
+Ion channel permeation:
+-----------------------
+Umbrella sampling simulations of ion permeation through a channel. Data from all-atom simulations are analyzed in this example Jupyter notebook. https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/glic-ion-channel/glic_ion_channel_permeation.ipynb
+
+RNA duplex formation:
+---------------------
+Umbrella sampling simulations of RNA duplex formation using a coarse-grained model
 https://github.com/bio-phys/PyDHAMed/blob/master/pydhamed/cg-rna/cg_RNA_duplex_formation.ipynb
 
 
