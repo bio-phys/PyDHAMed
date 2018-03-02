@@ -84,7 +84,7 @@ To run DHAMed:
   # run optimization
   og = run_dhamed(count_list, bias_ar)
  
-DHAMed example:
+DHAMed examples:
 ===============
 
 Two example calculations are provided in the pydhamed folder. 
