@@ -13,11 +13,19 @@ def state_lifetimes_counts(transition_count_matrix_l,
     Parameters:
     -----------
     transition_count_matrix_l: list of arrays
+        List of arrays with transition count matrices. One array for
+        each run/windows. 
+    n: int
+        Number of (structural) states
+    nwin: int
+        Number of simulations runs/windows. I.e., how many umbrella
+        winodws were run.    
 
     Returns:
     --------
-    t_ar: array_like, n x nwin, where n is number of states,
-          nwin is number of windows
+    t_ar: array_like
+        Array, n x nwin, where n is number of states,
+        nwin is number of windows with aggregate lifetimes in the states.
 
     """
     #n = len(transition_count_matrix_l[0][:,0])
@@ -114,7 +122,22 @@ def check_transition_pairs(transition_count_matrix_l, n_in, n_out, n_states, t_a
 
 
 def actual_transition_pairs(n_in, n_out, n_states, paired_ar, verbose=False):
-    """Generate indeces of transition pairs"""
+    """
+    Generate indeces of transition pairs
+    
+    Parameters:
+    -----------
+    n_in: array, number of transitions into given states
+    n_out: array, number of transitions from given states
+    paired_ar: array
+    verboise: Boolean
+    
+    Returns:
+    --------
+    pair_idx_d
+    n_actual
+    
+    """
     n_actual = 0
     pair_idx_d = defaultdict(list)
     # index of included points
@@ -127,7 +150,7 @@ def actual_transition_pairs(n_in, n_out, n_states, paired_ar, verbose=False):
             print ("bin {} excluded".format(i))
     if verbose:
        print(n_actual)
-    return pair_idx_d
+    return pair_idx_d, n_actual
 
 
 def prepare_dhamed_input_pairs(n_states, transition_count_matrix_l,
@@ -184,7 +207,7 @@ def prepare_dhamed_input_pairs(n_states, transition_count_matrix_l,
             np.array(tj), np.array(nijp))
 
 
-def generate_dhamed_input(c_l, v_ar, n_states, n_win):
+def generate_dhamed_input(c_l, v_ar, n_states, n_win, return_included_state_indices=True):
     """
     Converts a list of count matrices and an array of bias potentials
     to the input for DHAMed. For efficient calculation DHAMed input data
@@ -192,26 +215,46 @@ def generate_dhamed_input(c_l, v_ar, n_states, n_win):
 
     Parameters:
     -----------
-    c_l: list of arrays
+    c_l: list,
+        List of arrays. Each array contains a transition count matrix.
     v_ar: array
-    n_states: int, number of states/bins
-    n_win: int, number of simulation runs or windows
+        Array of bias potentials
+    n_states: int
+        Number of states/bins.
+    n_win: int
+        Number of simulation runs or windows.
+    return_included_state_indices: boolean, optional
+        Return indices of the states to be included in the calculation.
 
     Returns:
     --------
-    n_out: array like, N entries, list of total number of transitions out of bin i
-    ip: array_like, npair entries, list of indices of bin i in transition pair
-    jp: array_like, npair entries, list of indices of bin j in transition pair
-    vi: array_like, npair entries, list of potentials in kT units at bin i of a pair
-    ti: array_like, npair entries, list of residence times in bin i of a pair
-    tj: array like, npair entries, list of residence times in bin j of a pair
-    nijp: array_like, npair entries, number of j->i and i->j transitions combined in a pair
+    n_out: array like
+        N entries, list of total number of transitions out of bin i.
+    ip: array_like
+        npair entries, list of indices of bin i in transition pair.
+    jp: array_like
+        npair entries, list of indices of bin j in transition pair.
+    vi: array_like
+        npair entries, list of potentials in kT units at bin i of a pair.
+    ti: array_like
+        npair entries, list of residence times in bin i of a pair.
+    tj: array like
+        npair entries, list of residence times in bin j of a pair.
+    nijp: array_like
+        npair entries, number of j->i and i->j transitions combined in a pair.
+    n_actual: int
+        actual number of connected states which can be analyzed.
+    included_state_indices: array_like
+        Indices of states included in the DHAMed calculation (optional)
 
     """
-    t= state_lifetimes_counts(c_l, n_states, n_win)
+    t = state_lifetimes_counts(c_l, n_states, n_win)
     n_in, n_out = counts_in_out(c_l, n_states, n_win)
     pairs = check_transition_pairs(c_l, n_in, n_out, n_states, t)
-    pair_idx_d = actual_transition_pairs(n_in, n_out, n_states, pairs)
+    pair_idx_d, n_actual = actual_transition_pairs(n_in, n_out, n_states, pairs)
     ip, jp, vi, vj, ti, tj, nijp  = prepare_dhamed_input_pairs(n_states, c_l, n_in, n_out,
                                                                pairs, t, pair_idx_d, v_ar)
-    return n_out, ip, jp, vi, vj, ti, tj, nijp
+    if return_included_state_indices:
+       return n_out, ip, jp, vi, vj, ti, tj, nijp, n_actual, pair_idx_d
+    else:                                                            
+         return n_out, ip, jp, vi, vj, ti, tj, nijp, n_actual
