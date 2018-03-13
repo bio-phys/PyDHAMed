@@ -11,6 +11,39 @@ from .prepare_dhamed import *
 @numba.jit(nopython=True)
 def effective_log_likelihood_count_list(g,  ip, jp, ti, tj, vi, vj, nk, nijp,
                                         jit_gradient=False):
+    """
+    Effective negative log-likelihood for sovling the DHAMed equations by numerical 
+    optimization. 
+    
+    Parameters:
+    -----------
+    g: array_like
+        Dimensionless free energy of the states, with gi = ln pi = -beta Gi
+    ip: array_like
+        npair entries, list of indices of bin i in transition pair.
+    jp: array_like
+        npair entries, list of indices of bin j in transition pair.
+    ti: array_like
+        npair entries, list of residence times in bin i of a pair.
+    tj: array_like
+        npair entries, list of residence times in bin j of a pair.
+    vi: array_like
+        npair entries, list of potentials in kT units at bin i of a pair.  
+    vj: array_like
+        npair entries, list of potentials in kT units at bin j of a pair.
+    nk: array_like
+        Total number of transitions out bin i.
+    nijp: array_like
+        npair entries, number of j->i and i->j transitions combined for a pair.        
+    jit_gradient: Boolean, optional
+        Use Numba to speed up the calculation.
+        
+    Returns:
+    --------
+    F: float
+        Effective negative log-likelihood for DHAMed.
+    """                                    
+                                        
     #g[-1] = 0
     #g = np.append(g_i, 0)
     xlogp = 0
@@ -26,7 +59,7 @@ def effective_log_likelihood_count_list(g,  ip, jp, ti, tj, vi, vj, nk, nijp,
     return xlogp + np.sum(nk*g)
 
 
-def effective_log_likelihood_count_ref(g,  ip, jp, ti, tj, vi, vj, nk, njip):
+def effective_log_likelihood_count_ref(g,  ip, jp, ti, tj, vi, vj, nk, nijp):
     #g[-1] = 0
     xlogp = 0
     for ipair, i in enumerate(ip):
@@ -98,7 +131,7 @@ def grad_dhamed_likelihood_ref_0(g_prime, g,  ip, jp, ti, tj, vi, vj, nk, nijp,
     return grad[:-1]
 
 
-#@numba.jit(nopython=True)
+
 def _loop_grad_dhamed_likelihood_0(grad, g,  ip, jp, ti, tj, vi, vj, nijp):
     for ipair, i in enumerate(ip):
         j = jp[ipair]
@@ -152,14 +185,17 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     n_states = count_list[0].shape[0]
     n_windows = bias_ar.shape[1]
 
-    if np.all(g_init) is None:
-       g_init = np.zeros(n_states)
 
     #u_min = np.min(bias_ar, axis=0)
     #bias_ar -= u_min
 
-    n_out, ip, jp, vi, vj, ti, tj, nijp = generate_dhamed_input(count_list, bias_ar,
-                                                                n_states, n_windows)
+    n_out, ip, jp, vi, vj, ti, tj, nijp, n_actual = generate_dhamed_input(count_list,
+                                                                          bias_ar,
+                                                                          n_states,
+                                                                          n_windows)
+    if np.all(g_init) is None:
+       g_init = np.zeros(n_actual)
+
     start = time.time()
 
     if numerical_gradients:
@@ -173,9 +209,9 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     #print(g_init, ip -1, jp -1, ti, tj, vi, vj, n_out, nijp)
 
     # ip - 1, jp -1 : to get zero based indices
-    l0 = effective_log_likelihood_count_list(g_init*1.0, ip -1, jp -1, ti, tj, vi, vj,
-                                              n_out, nijp)
-    print ("loglike-start {}".format(l0))
+    #l0 = effective_log_likelihood_count_list(g_init*1.0, ip -1, jp -1, ti, tj, vi, vj,
+    #                                          n_out, nijp)
+    #print ("loglike-start {}".format(l0))
 
     if last_g_zero:
        og = min_dhamed_bfgs(g_init, ip, jp, ti, tj, vi, vj, n_out, nijp, jit_gradient=jit_gradient,
