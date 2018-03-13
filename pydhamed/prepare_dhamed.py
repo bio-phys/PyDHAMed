@@ -72,6 +72,13 @@ def counts_in_out(transition_count_matrix_l, n, nwin):
     Parameters:
     -----------
     transition_count_matrix_l: list of arrays
+        List of arrays with transition count matrices. One array for
+        each run/windows. 
+    n: int
+        Number of (structural) states
+    nwin: int
+        Number of simulations runs/windows. I.e., how many umbrella
+        winodws were run.    
 
     Returns:
     --------
@@ -94,27 +101,42 @@ def counts_in_out(transition_count_matrix_l, n, nwin):
 
 def check_transition_pairs(transition_count_matrix_l, n_in, n_out, n_states, t_ar):
     """
-    check if bin i is paired at least once.
+    Check if bin/state i is paired at least once, with at least one transition into
+    the state and one transition out of the state. Unpaiews states are subsequently
+    excluded from the analysis since no proper equilibrium can be established for them.
     
     Parameters:
     -----------
-    transition_count_matrix_l: list of arrays, transition count matrices
-    n_in: array, number of transitions into given states
-    n_out: array, number of transitions from given state
+    transition_count_matrix_l: list of arrays
+        List of arrays with transition count matrices. One array for
+        each run/windows. 
+    n_in: array
+        Number of transitions into given states.
+    n_out: array
+        Number of transitions from given state.
     n_states: integer
-    t_ar: array_like, n x nwin, where n is number of states,
-          nwin is number of windows  
+    t_ar: array_like
+        Array with dimension, n x nwin, where n is number of states,
+        nwin is number of windows. Contains aggregate  
   
-    
+    Returns:
+    --------
+    paired_ar: array
+        Number of transition pairs for each state.
+          
     """
     paired_ar = np.zeros(n_states)
 
     for iwin, count_matrix in enumerate(transition_count_matrix_l):
         for i in range(n_states-1):
+            # At least a transition into and out of the state
             if (n_in[i] > 0.0) and (n_out[i] > 0.0):
                 for j in range(i+1, n_states):
-                    if  (n_in[j] > 0.0) and (n_out[j] > 0.0):
-                        if count_matrix[i,j]+count_matrix[j,i] > 0.0:
+                    # Transition to/from connected states 
+                    if (n_in[j] > 0.0) and (n_out[j] > 0.0):
+                       # After checking that equilibrium can be established
+                       #check if states paired in this run/window
+                        if count_matrix[i,j] + count_matrix[j,i] > 0.0:
                             if t_ar[i,iwin] + t_ar[j,iwin] > 0.0:
                                 paired_ar[i] += 1
                                 paired_ar[j] += 1
@@ -123,19 +145,27 @@ def check_transition_pairs(transition_count_matrix_l, n_in, n_out, n_states, t_a
 
 def actual_transition_pairs(n_in, n_out, n_states, paired_ar, verbose=False):
     """
-    Generate indeces of transition pairs
+    Generate indeces of transition pairs. The indices of transition pairs are
+    required to setup the input for the actual optimization of the DHAMed
+    effective likelihood.
     
     Parameters:
     -----------
-    n_in: array, number of transitions into given states
-    n_out: array, number of transitions from given states
+    n_in: array
+        Number of transitions into given states
+    n_out: array
+        Number of transitions from given states
     paired_ar: array
-    verboise: Boolean
+        Number of transition pairs for each state.
+    verbose: Boolean
     
     Returns:
     --------
-    pair_idx_d
-    n_actual
+    pair_idx_d: defaultdict
+        Indeces of the paired states. Shifts the indices to account for
+        excluded, unpaired states.
+    n_actual: int
+        Actual number of states included in the DHAMed calculation.
     
     """
     n_actual = 0
