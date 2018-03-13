@@ -192,19 +192,20 @@ def run_dhamed(count_list, bias_ar, numerical_gradients=False, g_init=None,
     n_out, ip, jp, vi, vj, ti, tj, nijp, n_actual = generate_dhamed_input(count_list,
                                                                           bias_ar,
                                                                           n_states,
-                                                                          n_windows)
+                                                                          n_windows,
+                                                                          return_included_state_indices=False)
     if np.all(g_init) is None:
        g_init = np.zeros(n_actual)
 
     start = time.time()
 
     if numerical_gradients:
-       fprime=None
+       fprime = None
     else:
          if jit_gradient:
             fprime = grad_dhamed_likelihood
          else:
-              fprime=grad_dhamed_likelihood_ref
+              fprime = grad_dhamed_likelihood_ref
 
     #print(g_init, ip -1, jp -1, ti, tj, vi, vj, n_out, nijp)
 

@@ -293,7 +293,7 @@ def check_total_transition_counts(n_out, n_in, paired_ar, n_actual):
     return n_k
 
 
-def generate_dhamed_input(c_l, v_ar, n_states, n_win, return_included_state_indices=True):
+def generate_dhamed_input(c_l, v_ar, n_states, n_win, return_included_state_indices=False):
     """
     Converts a list of count matrices and an array of bias potentials
     to the input for DHAMed. For efficient calculation DHAMed input data
